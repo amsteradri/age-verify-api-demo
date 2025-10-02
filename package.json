@@ -1,0 +1,29 @@
+{
+  "name": "age-verify-ciba-demo",
+  "version": "1.0.0",
+  "description": "Demo del flujo CIBA para verificación de edad con Telefónica Open Gateway",
+  "main": "ciba-flow.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ciba-flow.js",
+    "test": "node test-ciba.js",
+    "dev": "node --watch ciba-flow.js",
+    "ciba": "node ciba-flow.js",
+    "auto-test": "node test-ciba.js"
+  },
+  "keywords": [
+    "telefonica",
+    "open-gateway",
+    "ciba",
+    "age-verification",
+    "oauth2"
+  ],
+  "author": "Adrian Gutierrez Segovia",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
