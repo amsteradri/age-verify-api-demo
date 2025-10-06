@@ -146,13 +146,13 @@ export default function SlotMachine() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full bg-white border-b border-gray-200 shadow-md"
       >
-        <div className="w-full px-6 py-6">
+        <div className="w-full flex justify-center px-8 py-4">
           <Image 
             src="/images/opengateway.jpg" 
             alt="Telefónica Open Gateway" 
-            width={1200} 
+            width={900} 
             height={200} 
-            className="w-full h-32 object-cover"
+            className="max-w-4xl w-full h-36 object-contain bg-white rounded-lg"
           />
         </div>
       </motion.div>
