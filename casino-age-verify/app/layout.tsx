@@ -6,8 +6,8 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Royal Casino - Age Verification Demo',
-  description: 'Casino simulation with Telefónica Open Gateway age verification',
+  title: 'Telefónica Open Gateway - Demo de Verificación de Edad',
+  description: 'Demostración de la API de verificación de edad usando Telefónica Open Gateway',
 };
 
 export default function RootLayout({
@@ -22,22 +22,26 @@ export default function RootLayout({
         <Toaster 
           position="top-right"
           toastOptions={{
-            duration: 4000,
+            duration: 3000,
             style: {
-              background: '#363636',
-              color: '#fff',
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '1px solid #E5E5E5',
+              borderRadius: '8px',
+              fontSize: '14px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             },
             success: {
-              duration: 3000,
+              duration: 2500,
               iconTheme: {
-                primary: '#10B981',
+                primary: '#00A650',
                 secondary: '#fff',
               },
             },
             error: {
-              duration: 5000,
+              duration: 4000,
               iconTheme: {
-                primary: '#EF4444',
+                primary: '#E60000',
                 secondary: '#fff',
               },
             },

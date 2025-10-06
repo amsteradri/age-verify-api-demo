@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Trophy, Gem, Wallet, Shield, Crown } from 'lucide-react';
+import Image from 'next/image';
 import { GameState } from '../types';
 import AgeVerificationModal from './AgeVerificationModal';
 import toast from 'react-hot-toast';
@@ -95,16 +96,9 @@ export default function SlotMachine() {
         setWinningSymbols(SLOT_SYMBOLS);
         
         // Mostrar notificación de victoria
-        toast.success(`¡JACKPOT ÉPICO! ¡Has ganado €${JACKPOT_AMOUNT.toLocaleString()}!`, {
-          duration: 8000,
-          icon: '🎰',
-          style: {
-            background: 'linear-gradient(45deg, #ffd700, #ffed4e)',
-            color: '#000',
-            fontWeight: 'bold',
-            fontSize: '18px',
-            padding: '16px'
-          }
+        toast.success(`¡Premio ganado! Has obtenido €${JACKPOT_AMOUNT.toLocaleString()}`, {
+          duration: 4000,
+          icon: '�',
         });
       }, 1000);
     }, SPIN_DURATION);
@@ -126,14 +120,9 @@ export default function SlotMachine() {
   const handleVerificationSuccess = useCallback(() => {
     setShowVerificationModal(false);
     setGameState(prev => ({ ...prev, isAgeVerified: true }));
-    toast.success(`¡Felicidades! Has retirado €${gameState.winAmount.toLocaleString()} exitosamente.`, {
-      duration: 6000,
-      icon: '💰',
-      style: {
-        background: 'linear-gradient(45deg, #10b981, #34d399)',
-        color: 'white',
-        fontWeight: 'bold'
-      }
+    toast.success(`Retiro procesado: €${gameState.winAmount.toLocaleString()} transferido exitosamente`, {
+      duration: 3000,
+      icon: '✓',
     });
   }, [gameState.winAmount]);
 
@@ -150,50 +139,74 @@ export default function SlotMachine() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex flex-col items-center justify-center p-4">
-      {/* Header Principal */}
-      <motion.div 
-        initial={{ opacity: 0, y: -50 }}
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Banner Open Gateway */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-8 w-full max-w-4xl"
+        className="w-full bg-white border-b border-gray-200 shadow-md"
       >
-        <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-6 rounded-2xl shadow-2xl border border-cyan-400">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Shield className="text-cyan-300" size={32} />
-            <h1 className="text-3xl md:text-4xl font-black tracking-wide">OPEN GATEWAY SLOTS</h1>
-            <Shield className="text-cyan-300" size={32} />
+        <div className="w-full px-6 py-6">
+          <Image 
+            src="/images/opengateway.jpg" 
+            alt="Telefónica Open Gateway" 
+            width={1200} 
+            height={200} 
+            className="w-full h-32 object-cover"
+          />
+        </div>
+      </motion.div>
+
+      <div className="flex-1 flex flex-col items-center justify-center p-6">
+        {/* Header Corporativo Telefónica */}
+        <motion.div 
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mb-6 w-full max-w-4xl"
+        >
+        <div className="telefonica-card p-6 border-l-4 border-l-blue-600">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center">
+              <Shield className="text-white" size={20} />
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Age Verification Demo</h1>
+            <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center">
+              <Shield className="text-white" size={20} />
+            </div>
           </div>
-          <p className="text-lg text-cyan-100 mb-2">TRAGAPERRAS OPEN GATEWAY - JACKPOT €{JACKPOT_AMOUNT.toLocaleString()}</p>
-          <p className="text-sm text-yellow-300 font-semibold bg-red-600/20 px-4 py-2 rounded-lg border border-red-400">
-            📋 Demo de la API Age Verify Open Gateway - Nada es real
-          </p>
+          <p className="text-base text-gray-600 mb-3">Demo de verificación de edad - API Open Gateway</p>
+          <div className="inline-flex items-center px-4 py-2 bg-orange-50 text-orange-700 text-sm rounded-md border border-orange-200">
+            <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+            Entorno de pruebas - Datos simulados
+          </div>
         </div>
       </motion.div>
 
       <div className="w-full max-w-6xl mx-auto">
         {/* MÁQUINA PRINCIPAL */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 rounded-3xl shadow-2xl p-6 mb-8 border-4 border-cyan-500"
+          className="telefonica-card p-6 mb-6 w-full max-w-4xl mx-auto"
         >
           {/* TRAGAPERRAS */}
-          <div className="text-center mb-8">
-            <div className="bg-gradient-to-br from-blue-800 via-cyan-700 to-blue-900 rounded-3xl shadow-2xl p-8 border-6 border-blue-600 w-full max-w-4xl mx-auto">
+          <div className="text-center mb-6">
+            <div className="telefonica-card border-2 border-blue-600 p-6 w-full max-w-3xl mx-auto">
               {/* Panel superior */}
-              <div className="text-center mb-6">
-                <h3 className="text-3xl font-bold text-white mb-3">OPEN GATEWAY SLOTS</h3>
-                <div className="text-cyan-400 font-bold text-xl mb-2">JACKPOT GARANTIZADO</div>
-                <div className="text-yellow-400 font-black text-2xl">€{JACKPOT_AMOUNT.toLocaleString()}</div>
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Simulador de Casino</h3>
+                <div className="text-blue-600 font-semibold text-sm mb-1">Premio disponible</div>
+                <div className="text-gray-800 font-bold text-lg">€{JACKPOT_AMOUNT.toLocaleString()}</div>
               </div>
 
               {/* PANTALLA DE RODILLOS */}
-              <div className="bg-black rounded-2xl p-6 shadow-inner border-4 border-cyan-500 relative">
-                <div className="flex gap-4 justify-center">
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 relative">
+                <div className="flex gap-3 justify-center">
                   {reelSymbols.map((symbol, reelIndex) => (
                     <div key={reelIndex} className="text-center">
                       {/* RODILLO INDIVIDUAL */}
-                      <div className="w-24 h-36 bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-xl border-3 border-cyan-400 overflow-hidden relative shadow-xl">
+                      <div className="w-16 h-24 bg-white rounded-lg border border-gray-300 overflow-hidden relative shadow-sm">
                         {/* SÍMBOLOS PRINCIPALES */}
                         <motion.div
                           className="absolute inset-0 flex items-center justify-center"
@@ -212,7 +225,7 @@ export default function SlotMachine() {
                             ease: isSpinning ? "linear" : "easeInOut"
                           }}
                         >
-                          <div className="text-5xl select-none">
+                          <div className="text-3xl select-none">
                             {symbol}
                           </div>
                         </motion.div>
@@ -220,7 +233,7 @@ export default function SlotMachine() {
                         {/* EFECTO DE GIRO */}
                         {isSpinning && (
                           <motion.div
-                            className="absolute inset-0 flex flex-col items-center justify-center text-4xl opacity-20"
+                            className="absolute inset-0 flex flex-col items-center justify-center text-2xl opacity-20"
                             animate={{
                               y: [-400, 400],
                             }}
@@ -244,20 +257,20 @@ export default function SlotMachine() {
                 </div>
 
                 {/* LÍNEA DE PAGO */}
-                <div className="absolute left-6 right-6 top-1/2 h-2 bg-gradient-to-r from-transparent via-cyan-400 to-transparent transform -translate-y-1/2 rounded-full opacity-70"></div>
+                <div className="absolute left-4 right-4 top-1/2 h-0.5 bg-gradient-to-r from-transparent via-blue-600 to-transparent transform -translate-y-1/2 opacity-60"></div>
               </div>
 
               {/* Panel inferior */}
-              <div className="mt-6 text-center">
-                <div className="text-white text-lg font-bold">LÍNEA DE PAGO ACTIVA</div>
+              <div className="mt-4 text-center">
+                <div className="text-gray-600 text-sm font-medium">Línea de juego activa</div>
               </div>
             </div>
           </div>
 
           {/* CONTROLES */}
           <motion.div 
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
@@ -265,16 +278,16 @@ export default function SlotMachine() {
             <motion.button
               onClick={spin}
               disabled={gameState.isSpinning || gameState.hasWon || gameState.balance < SPIN_COST}
-              whileHover={(gameState.isSpinning || gameState.hasWon || gameState.balance < SPIN_COST) ? {} : { scale: 1.05 }}
-              whileTap={(gameState.isSpinning || gameState.hasWon || gameState.balance < SPIN_COST) ? {} : { scale: 0.95 }}
-              className={`flex-1 py-6 px-10 rounded-2xl font-bold text-xl md:text-2xl shadow-2xl transition-all duration-300 flex items-center justify-center gap-4 min-h-[80px] ${
+              whileHover={(gameState.isSpinning || gameState.hasWon || gameState.balance < SPIN_COST) ? {} : { scale: 1.02 }}
+              whileTap={(gameState.isSpinning || gameState.hasWon || gameState.balance < SPIN_COST) ? {} : { scale: 0.98 }}
+              className={`flex-1 py-4 px-6 rounded-lg font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-3 min-h-[60px] ${
                 gameState.isSpinning
-                  ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white animate-pulse cursor-not-allowed'
+                  ? 'bg-orange-100 text-orange-600 cursor-not-allowed border border-orange-200'
                   : gameState.hasWon
-                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white cursor-not-allowed'
+                  ? 'bg-green-100 text-green-600 cursor-not-allowed border border-green-200'
                   : gameState.balance < SPIN_COST
-                  ? 'bg-gradient-to-r from-gray-500 to-gray-600 text-gray-300 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-600 hover:to-blue-700 transform hover:shadow-cyan-500/50'
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                  : 'telefonica-button-primary hover:shadow-md'
               }`}
             >
               {gameState.isSpinning ? (
@@ -283,24 +296,24 @@ export default function SlotMachine() {
                     animate={{ rotate: 360 }}
                     transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
                   >
-                    <Zap size={24} />
+                    <Zap size={18} />
                   </motion.div>
-                  GIRANDO...
+                  Girando...
                 </>
               ) : gameState.hasWon ? (
                 <>
-                  <Trophy className="text-yellow-300" size={24} />
-                  ¡JACKPOT GANADO!
+                  <Trophy size={18} />
+                  ¡Premio ganado!
                 </>
               ) : gameState.balance < SPIN_COST ? (
                 <>
-                  <Wallet size={24} />
-                  SALDO INSUFICIENTE
+                  <Wallet size={18} />
+                  Saldo insuficiente
                 </>
               ) : (
                 <>
-                  <Gem size={24} />
-                  GIRAR RODILLOS (€{SPIN_COST})
+                  <Gem size={18} />
+                  Iniciar juego (€{SPIN_COST})
                 </>
               )}
             </motion.button>
@@ -309,40 +322,45 @@ export default function SlotMachine() {
             {gameState.canWithdraw && (
               <motion.button
                 onClick={handleWithdraw}
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex-1 py-6 px-8 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black text-xl rounded-2xl hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 shadow-lg shadow-green-500/50 min-h-[80px] flex items-center justify-center"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-1 py-4 px-6 bg-green-600 text-white font-semibold text-sm rounded-lg hover:bg-green-700 transition-all duration-200 shadow-md hover:shadow-lg min-h-[60px] flex items-center justify-center gap-3"
               >
-                <Crown size={24} />
-                <span className="ml-2">RETIRAR €{gameState.winAmount.toLocaleString()}</span>
+                <Crown size={18} />
+                <span>Retirar €{gameState.winAmount.toLocaleString()}</span>
               </motion.button>
             )}
           </motion.div>
 
           {/* INFORMACIÓN DE SALDO */}
           <motion.div 
-            className="mt-8 text-center"
+            className="mt-6 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="bg-gradient-to-r from-purple-800 to-indigo-800 rounded-2xl p-6 border-2 border-purple-500">
-              <div className="flex flex-wrap justify-center gap-6 text-white">
+            <div className="telefonica-card p-4 border-l-4 border-l-blue-600">
+              <div className="flex flex-wrap justify-center gap-6 text-sm">
                 <div className="flex items-center gap-2">
-                  <Wallet className="text-green-400" size={20} />
-                  <span className="font-bold">Saldo: €{gameState.balance.toLocaleString()}</span>
+                  <Wallet className="text-blue-600" size={16} />
+                  <span className="font-medium text-gray-700">Saldo: €{gameState.balance.toLocaleString()}</span>
                 </div>
                 {gameState.hasWon && (
                   <div className="flex items-center gap-2">
-                    <Trophy className="text-yellow-400" size={20} />
-                    <span className="font-bold text-yellow-400">Premio: €{gameState.winAmount.toLocaleString()}</span>
+                    <Trophy className="text-green-600" size={16} />
+                    <span className="font-medium text-green-600">Premio: €{gameState.winAmount.toLocaleString()}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  <Shield className="text-cyan-400" size={20} />
-                  <span className="font-bold">Estado: {gameState.isAgeVerified ? 'Verificado' : 'Pendiente'}</span>
+                  <Shield className="text-blue-600" size={16} />
+                  <span className="font-medium text-gray-700">
+                    Estado: {gameState.isAgeVerified ? 
+                      <span className="text-green-600">Verificado</span> : 
+                      <span className="text-orange-600">Pendiente</span>
+                    }
+                  </span>
                 </div>
               </div>
             </div>
@@ -359,6 +377,7 @@ export default function SlotMachine() {
         isVerifying={isVerifying}
         setIsVerifying={setIsVerifying}
       />
+      </div>
     </div>
   );
 }

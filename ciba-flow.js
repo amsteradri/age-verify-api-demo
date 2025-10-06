@@ -12,7 +12,10 @@ import readline from 'readline';
 
 // Configuración de la API
 const BASE_URL = 'https://sandbox.opengateway.telefonica.com/apigateway';
-const SCOPE = 'dpv:FraudPreventionAndDetection kyc-age-verification:verify';
+// Probar primero con scope más simple
+const SCOPE = 'kyc-age-verification:verify';
+// Scope original que estaba causando problemas:
+// const SCOPE = 'dpv:FraudPreventionAndDetection kyc-age-verification:verify';
 
 // Validar variables de entorno
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
@@ -20,8 +23,20 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
     process.exit(1);
 }
 
+// Verificar formato de credenciales
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(process.env.CLIENT_ID)) {
+    console.error('⚠️ Advertencia: CLIENT_ID no parece tener formato UUID válido');
+}
+
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(process.env.CLIENT_SECRET)) {
+    console.error('⚠️ Advertencia: CLIENT_SECRET no parece tener formato UUID válido');
+}
+
 // Generar Authorization Basic
 const basicAuth = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64');
+
+console.log(`🔧 CLIENT_ID configurado: ${process.env.CLIENT_ID.substring(0, 8)}...`);
+console.log(`🔧 CLIENT_SECRET configurado: ${process.env.CLIENT_SECRET.substring(0, 8)}...`);
 
 // Configurar readline para input del usuario
 const rl = readline.createInterface({
@@ -30,26 +45,111 @@ const rl = readline.createInterface({
 });
 
 /**
- * Función para hacer peticiones HTTP con manejo de errores
+ * Función para hacer peticiones HTTP con manejo de errores y reintentos
  */
-async function makeRequest(url, options, step) {
-    try {
-        console.log(`\n🔄 ${step}...`);
-        console.log(`📍 URL: ${url}`);
-        
-        const response = await fetch(url, options);
-        const data = await response.json();
-        
-        if (!response.ok) {
-            console.error(`❌ Error HTTP ${response.status}:`, data);
-            throw new Error(`${step} falló: HTTP ${response.status}`);
+async function makeRequest(url, options, step, maxRetries = 2) {
+    let lastError;
+    
+    for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
+        if (attempt > 1) {
+            const delay = Math.min(1000 * Math.pow(2, attempt - 2), 5000); // Backoff exponencial
+            console.log(`⏳ Reintentando en ${delay}ms... (intento ${attempt}/${maxRetries + 1})`);
+            await new Promise(resolve => setTimeout(resolve, delay));
         }
         
-        console.log(`✅ ${step} exitoso`);
-        return data;
+        try {
+            if (attempt === 1) {
+                console.log(`\n🔄 ${step}...`);
+                console.log(`📍 URL: ${url}`);
+                console.log(`🔧 Headers:`, JSON.stringify(options.headers, null, 2));
+                console.log(`📝 Body:`, options.body);
+            }
+            
+            const response = await fetch(url, options);
+            
+            console.log(`📊 Status: ${response.status} ${response.statusText}`);
+            
+            if (attempt === 1) {
+                console.log(`📋 Response headers:`, Object.fromEntries(response.headers.entries()));
+            }
+            
+            // Intentar obtener el texto de la respuesta primero
+            const responseText = await response.text();
+            console.log(`📄 Response text:`, responseText || '(empty response)');
+            
+            // Si es error 500 y tenemos reintentos disponibles, reintentar
+            if (response.status === 500 && attempt <= maxRetries) {
+                lastError = new Error(`Servidor interno error (HTTP 500) - intento ${attempt}`);
+                console.log(`⚠️ Error 500 del servidor, reintentando...`);
+                continue;
+            }
+            
+            // Intentar parsear como JSON solo si hay contenido
+            let data;
+            if (responseText.trim()) {
+                try {
+                    data = JSON.parse(responseText);
+                } catch (jsonError) {
+                    console.error(`❌ Error parsing JSON:`, jsonError.message);
+                    console.error(`📄 Raw response:`, responseText);
+                    throw new Error(`${step} falló: Respuesta no es JSON válido - ${responseText}`);
+                }
+            } else {
+                console.error(`❌ Respuesta vacía del servidor`);
+                throw new Error(`${step} falló: Respuesta vacía del servidor`);
+            }
+            
+            if (!response.ok) {
+                console.error(`❌ Error HTTP ${response.status}:`, data);
+                throw new Error(`${step} falló: HTTP ${response.status} - ${JSON.stringify(data)}`);
+            }
+            
+            console.log(`✅ ${step} exitoso`);
+            console.log(`📊 Response data:`, JSON.stringify(data, null, 2));
+            return data;
+            
+        } catch (error) {
+            lastError = error;
+            
+            if (attempt <= maxRetries && (error.message.includes('500') || error.message.includes('fetch'))) {
+                console.log(`⚠️ Error temporal, reintentando... (${error.message})`);
+                continue;
+            }
+            
+            // Si no hay más intentos o es un error no recuperable, lanzar el error
+            console.error(`❌ ${step} falló definitivamente:`, error.message);
+            throw error;
+        }
+    }
+    
+    // Si llegamos aquí, todos los reintentos fallaron
+    throw lastError;
+}
+
+/**
+ * Función para probar conectividad básica
+ */
+async function testConnectivity() {
+    console.log('\n🔍 Probando conectividad con Open Gateway...');
+    
+    try {
+        const response = await fetch(`${BASE_URL}/.well-known/openid_configuration`, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            console.log('✅ Conectividad con Open Gateway: OK');
+            return true;
+        } else {
+            console.log(`⚠️ Open Gateway responde con status: ${response.status}`);
+            return false;
+        }
     } catch (error) {
-        console.error(`❌ ${step} falló:`, error.message);
-        throw error;
+        console.log(`❌ Error de conectividad: ${error.message}`);
+        return false;
     }
 }
 
@@ -59,6 +159,9 @@ async function makeRequest(url, options, step) {
 async function bcAuthorize(phoneNumber) {
     const url = `${BASE_URL}/bc-authorize`;
     
+    // Formatear el login_hint correctamente (algunos APIs requieren tel: prefix)
+    const loginHint = phoneNumber.startsWith('tel:') ? phoneNumber : `tel:${phoneNumber}`;
+    
     const options = {
         method: 'POST',
         headers: {
@@ -67,12 +170,13 @@ async function bcAuthorize(phoneNumber) {
             'authorization': `Basic ${basicAuth}`
         },
         body: new URLSearchParams({
-            login_hint: phoneNumber,
+            login_hint: loginHint,
             scope: SCOPE
         })
     };
     
     console.log(`📱 Número de teléfono: ${phoneNumber}`);
+    console.log(`📞 Login hint: ${loginHint}`);
     console.log(`🔐 Scope: ${SCOPE}`);
     
     const data = await makeRequest(url, options, 'Paso 1: bc-authorize');
@@ -219,9 +323,15 @@ async function main() {
         console.log('');
         
         // Solicitar número de teléfono
+        console.log('💡 Números recomendados para el sandbox:');
+        console.log('   📞 +34123456789 (número de ejemplo oficial)');
+        console.log('   📞 +34696567077 (tu número anterior)');
+        console.log('   📞 +34600000001 a +34600000010 (números de prueba)');
+        console.log('');
+        
         let phoneNumber;
         while (true) {
-            phoneNumber = await getUserInput('📱 Introduce el número de teléfono (formato: +34639106848): ');
+            phoneNumber = await getUserInput('📱 Introduce el número de teléfono (formato: +34123456789): ');
             
             if (!phoneNumber) {
                 console.log('❌ El número de teléfono es obligatorio.');
@@ -229,7 +339,7 @@ async function main() {
             }
             
             if (!isValidPhoneNumber(phoneNumber)) {
-                console.log('❌ Formato inválido. Usa formato internacional con + (ej: +34639106848)');
+                console.log('❌ Formato inválido. Usa formato internacional con + (ej: +34123456789)');
                 continue;
             }
             
@@ -246,6 +356,9 @@ async function main() {
         }
         
         console.log('\n🔄 Iniciando flujo CIBA...');
+        
+        // Probar conectividad primero
+        await testConnectivity();
         
         // Ejecutar flujo completo
         const authReqId = await bcAuthorize(phoneNumber);

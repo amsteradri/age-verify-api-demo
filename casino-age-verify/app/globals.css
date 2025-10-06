@@ -2,6 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Telefónica Corporate Theme */
+:root {
+  /* Colores corporativos Telefónica */
+  --telefonica-blue: #0066CC;
+  --telefonica-blue-dark: #004A99;
+  --telefonica-blue-light: #E6F3FF;
+  --telefonica-gray: #F5F5F5;
+  --telefonica-gray-dark: #666666;
+  --telefonica-white: #FFFFFF;
+  --telefonica-success: #00A650;
+  --telefonica-warning: #FF6600;
+  --telefonica-error: #E60000;
+}
+
+/* Estilos base corporativos */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--telefonica-gray);
+}
+
+/* Componentes corporativos reutilizables */
+.telefonica-card {
+  background: var(--telefonica-white);
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.telefonica-button-primary {
+  background: var(--telefonica-blue);
+  color: var(--telefonica-white);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.telefonica-button-primary:hover {
+  background: var(--telefonica-blue-dark);
+  transform: translateY(-1px);
+}
+
+.telefonica-button-primary:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.telefonica-text-primary {
+  color: var(--telefonica-blue);
+}
+
+.telefonica-text-secondary {
+  color: var(--telefonica-gray-dark);
+}
+
+.telefonica-border {
+  border: 1px solid var(--telefonica-blue);
+}
+
+/* Animaciones suaves */
+.smooth-transition {
+  transition: all 0.2s ease-in-out;
+}
+
 /* Importar fuentes elegantes */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 

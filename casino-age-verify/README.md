@@ -100,7 +100,7 @@ http://localhost:3000
 - Se abrirá el modal de verificación de edad
 
 ### **3. Verificar Edad**
-- Introduce tu número de teléfono (formato: +34639106848)
+- Introduce tu número de teléfono (formato: +34123456789)
 - El sistema usará el flujo CIBA para verificar tu edad
 - Si eres mayor de 18 años, podrás retirar el dinero
 
@@ -110,7 +110,7 @@ http://localhost:3000
 ```typescript
 POST /apigateway/bc-authorize
 Authorization: Basic base64(CLIENT_ID:CLIENT_SECRET)
-Body: login_hint=+34639106848&scope=dpv:FraudPreventionAndDetection kyc-age-verification:verify
+Body: login_hint=+34123456789&scope=dpv:FraudPreventionAndDetection kyc-age-verification:verify
 → Retorna: auth_req_id
 ```
 
@@ -126,7 +126,7 @@ Body: grant_type=urn:openid:params:grant-type:ciba&auth_req_id=...
 ```typescript
 POST /apigateway/kyc-age-verification/v0.1/verify
 Authorization: Bearer access_token
-Body: { ageThreshold: 18, phoneNumber: "+34639106848" }
+Body: { ageThreshold: 18, phoneNumber: "+34123456789" }
 → Retorna: { ageCheck: "true"|"false"|"not_available" }
 ```
 
@@ -184,7 +184,7 @@ Body: { ageThreshold: 18, phoneNumber: "+34639106848" }
 ## 🧪 Testing
 
 ### **Números de Prueba**
-- `+34639106848` - Número habilitado en sandbox
+- `+34123456789` - Número habilitado en sandbox
 - Otros números pueden no funcionar en sandbox
 
 ### **Escenarios de Prueba**
