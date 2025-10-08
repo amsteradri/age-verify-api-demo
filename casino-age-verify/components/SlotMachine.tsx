@@ -140,23 +140,6 @@ export default function SlotMachine() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Banner Open Gateway */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-white border-b border-gray-200 shadow-md"
-      >
-        <div className="w-full flex justify-center px-8 py-4">
-          <Image 
-            src="/images/opengateway.jpg" 
-            alt="Telefónica Open Gateway" 
-            width={900} 
-            height={200} 
-            className="max-w-4xl w-full h-36 object-contain bg-white rounded-lg"
-          />
-        </div>
-      </motion.div>
-
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         {/* Header Corporativo Telefónica */}
         <motion.div 
@@ -170,12 +153,12 @@ export default function SlotMachine() {
             <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center">
               <Shield className="text-white" size={20} />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Age Verification Demo</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-800">🎰 Open Gateway Casino 🎰</h1>
             <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center">
               <Shield className="text-white" size={20} />
             </div>
           </div>
-          <p className="text-base text-gray-600 mb-3">Demo de verificación de edad - API Open Gateway</p>
+          <p className="text-sm text-gray-600 mb-3">Demo de verificación de edad</p>
           <div className="inline-flex items-center px-4 py-2 bg-orange-50 text-orange-700 text-sm rounded-md border border-orange-200">
             <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
             Entorno de pruebas - Datos simulados

@@ -141,22 +141,7 @@ export default function AgeVerificationSystem() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex flex-col">
-      {/* Banner Open Gateway */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-white border-b border-gray-200 shadow-md"
-      >
-        <div className="w-full flex justify-center px-4 py-3">
-          <Image 
-            src="/images/opengateway.jpg" 
-            alt="Telefónica Open Gateway" 
-            width={900} 
-            height={200} 
-            className="max-w-4xl w-full h-32 object-contain bg-white rounded-lg"
-          />
-        </div>
-      </motion.div>
+
 
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         {/* Header Principal */}
@@ -167,18 +152,18 @@ export default function AgeVerificationSystem() {
           className="text-center mb-8 w-full max-w-5xl"
         >
           <div className="telefonica-card p-8 shadow-xl border-l-4 border-l-[var(--telefonica-blue)]">
-            <div className="flex items-center justify-center gap-6 mb-8">
-              <Shield className="text-[var(--telefonica-blue)]" size={48} />
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-800 tracking-wide">
-                Age Verification
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Shield className="text-[var(--telefonica-blue)]" size={32} />
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 tracking-wide">
+                🎭 Open Gateway Disco 🎭
               </h1>
-              <Building2 className="text-[var(--telefonica-blue)]" size={48} />
+              <Building2 className="text-[var(--telefonica-blue)]" size={32} />
             </div>
-            <p className="text-2xl text-gray-600 mb-6 font-medium">
-              Verificación masiva de identidad y edad con Telefónica Open Gateway
+            <p className="text-lg text-gray-600 mb-6 font-medium">
+              Verificación masiva de identidad y edad
             </p>
-            <div className="inline-flex items-center px-6 py-3 bg-blue-50 text-[var(--telefonica-blue)] text-base font-semibold rounded-lg border border-blue-200">
-              <span className="w-3 h-3 bg-[var(--telefonica-blue)] rounded-full mr-3"></span>
+            <div className="inline-flex items-center px-4 py-2 bg-blue-50 text-[var(--telefonica-blue)] text-sm font-semibold rounded-lg border border-blue-200">
+              <span className="w-2 h-2 bg-[var(--telefonica-blue)] rounded-full mr-2"></span>
               Entorno de Demostración
             </div>
           </div>

@@ -6,8 +6,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Telefónica Open Gateway - Age Verification Demo',
-  description: 'Demostración profesional de verificación masiva de edad usando Telefónica Open Gateway para control de acceso empresarial',
+  title: 'Open Gateway Disco - Age Verification Demo',
+  description: 'Demostración de verificación masiva de edad para discoteca usando Open Gateway',
 }
 
 export default function RootLayout({
