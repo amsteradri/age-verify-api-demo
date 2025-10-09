@@ -154,13 +154,13 @@ export default function AgeVerificationSystem() {
           <div className="telefonica-card p-8 shadow-xl border-l-4 border-l-[var(--telefonica-blue)]">
             <div className="flex items-center justify-center gap-4 mb-6">
               <Shield className="text-[var(--telefonica-blue)]" size={32} />
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 tracking-wide">
-                🎭 Open Gateway Disco 🎭
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 tracking-wide">
+                Demo Age Verification - Verificación Masiva de Edades
               </h1>
               <Building2 className="text-[var(--telefonica-blue)]" size={32} />
             </div>
-            <p className="text-lg text-gray-600 mb-6 font-medium">
-              Verificación masiva de identidad y edad
+            <p className="text-base text-gray-600 mb-6 font-medium">
+              Procesamiento masivo de verificaciones de edad
             </p>
             <div className="inline-flex items-center px-4 py-2 bg-blue-50 text-[var(--telefonica-blue)] text-sm font-semibold rounded-lg border border-blue-200">
               <span className="w-2 h-2 bg-[var(--telefonica-blue)] rounded-full mr-2"></span>

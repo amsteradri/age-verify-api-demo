@@ -6,8 +6,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Open Gateway Disco - Age Verification Demo',
-  description: 'Demostración de verificación masiva de edad para discoteca usando Open Gateway',
+  title: 'Demo Age Verification - Verificación Masiva de Edades',
+  description: 'Demostración de verificación masiva de edad usando Open Gateway API',
 }
 
 export default function RootLayout({

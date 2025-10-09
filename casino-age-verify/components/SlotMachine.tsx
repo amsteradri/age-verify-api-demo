@@ -153,7 +153,7 @@ export default function SlotMachine() {
             <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center">
               <Shield className="text-white" size={20} />
             </div>
-            <h1 className="text-xl md:text-2xl font-bold text-gray-800">🎰 Open Gateway Casino 🎰</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-800">Demo Age Verification - Ejemplo de Casino</h1>
             <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center">
               <Shield className="text-white" size={20} />
             </div>

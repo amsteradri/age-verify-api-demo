@@ -6,8 +6,8 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Open Gateway Casino - Demo de Verificación de Edad',
-  description: 'Demostración de casino con verificación de edad usando Open Gateway',
+  title: 'Demo Age Verification - Ejemplo de Casino',
+  description: 'Demostración de verificación de edad en contexto de casino usando Open Gateway',
 };
 
 export default function RootLayout({
