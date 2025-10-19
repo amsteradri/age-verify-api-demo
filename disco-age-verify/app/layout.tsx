@@ -1,19 +1,19 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast';
+import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Demo Age Verification - Ejemplo de Casino',
-  description: 'Demostración de verificación de edad en contexto de casino usando Open Gateway',
-};
+  title: 'Demo Age Verification - Verificación Masiva de Edades',
+  description: 'Demostración de verificación masiva de edad usando Open Gateway API',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="es">
@@ -34,14 +34,14 @@ export default function RootLayout({
             success: {
               duration: 2500,
               iconTheme: {
-                primary: '#00A650',
+                primary: '#10B981',
                 secondary: '#fff',
               },
             },
             error: {
               duration: 4000,
               iconTheme: {
-                primary: '#E60000',
+                primary: '#EF4444',
                 secondary: '#fff',
               },
             },
@@ -49,5 +49,5 @@ export default function RootLayout({
         />
       </body>
     </html>
-  );
+  )
 }

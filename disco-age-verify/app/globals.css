@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Telefónica Corporate Theme */
+:root {
+  /* Colores corporativos Telefónica */
+  --telefonica-blue: #0066CC;
+  --telefonica-blue-dark: #004A99;
+  --telefonica-blue-light: #E6F3FF;
+  --telefonica-gray: #F5F5F5;
+  --telefonica-gray-dark: #666666;
+  --telefonica-white: #FFFFFF;
+  --telefonica-success: #00A650;
+  --telefonica-warning: #FF6600;
+  --telefonica-error: #E60000;
+}
+
+/* Estilos base corporativos */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--telefonica-gray);
+}
+
+/* Componentes corporativos reutilizables */
+.telefonica-card {
+  background: var(--telefonica-white);
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.telefonica-button-primary {
+  background: var(--telefonica-blue);
+  color: var(--telefonica-white);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.telefonica-button-primary:hover {
+  background: var(--telefonica-blue-dark);
+  transform: translateY(-1px);
+}
+
+.telefonica-button-primary:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.telefonica-button-secondary {
+  background: var(--telefonica-white);
+  color: var(--telefonica-blue);
+  border: 2px solid var(--telefonica-blue);
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.telefonica-button-secondary:hover {
+  background: var(--telefonica-blue-light);
+}
+
+.telefonica-text-primary {
+  color: var(--telefonica-blue);
+}
+
+.telefonica-text-secondary {
+  color: var(--telefonica-gray-dark);
+}
+
+.telefonica-border {
+  border: 1px solid var(--telefonica-blue);
+}
+
+/* Animaciones suaves */
+.smooth-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}

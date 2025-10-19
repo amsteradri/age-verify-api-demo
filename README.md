@@ -132,7 +132,9 @@ node ciba-flow.js
 
 ```bash
 
-# Ejecutar con número predefinido (+34696567000)1. Crea una app en el Sandbox de Telefónica Open Gateway
+
+# Ejecutar con número predefinido (+34123456789)1. Crea una app en el Sandbox de Telefónica Open Gateway
+
 
 node test-ciba.js2. Obtén credenciales OAuth2 con el scope: `dpv:FraudPreventionAndDetection kyc-age-verification:verify`
 
@@ -148,7 +150,11 @@ node test-ciba.js2. Obtén credenciales OAuth2 con el scope: `dpv:FraudPreventio
 
 ============================================================**Endpoint**: `POST https://{host}/kyc-age-verification/v0.1/verify`
 
+<<<<<<< HEAD
 📱 Introduce el número de teléfono (formato: +34696567000): +34696567000
+=======
+📱 Introduce el número de teléfono (formato: +34123456789): +34123456789
+>>>>>>> 803c14edbf9e07b2dd12bc89143200b0e23c509e
 
 🎯 Introduce el umbral de edad (por defecto 21): 18**Scope requerido**: `dpv:FraudPreventionAndDetection kyc-age-verification:verify`
 
