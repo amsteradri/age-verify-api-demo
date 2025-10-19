@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const phoneRegex = /^\+\d{10,15}$/;
     if (!phoneRegex.test(body.phoneNumber)) {
       return NextResponse.json(
-        { error: 'Invalid phone number format. Use international format (+34639106848)' },
+        { error: 'Invalid phone number format. Use international format (+34696567000)' },
         { status: 400 }
       );
     }

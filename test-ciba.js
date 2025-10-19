@@ -8,7 +8,7 @@
 import 'dotenv/config';
 
 // Configuración de prueba
-const TEST_PHONE = '+34639106848'; // Número de prueba
+const TEST_PHONE = '+34696567000'; // Número de prueba
 const TEST_AGE_THRESHOLD = 21;
 
 // Importar funciones del script principal

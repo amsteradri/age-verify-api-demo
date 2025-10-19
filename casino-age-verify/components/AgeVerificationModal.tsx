@@ -23,7 +23,7 @@ export default function AgeVerificationModal({
   isVerifying,
   setIsVerifying
 }: AgeVerificationModalProps) {
-  const [phoneNumber, setPhoneNumber] = useState('+34639106848');
+  const [phoneNumber, setPhoneNumber] = useState('+34696567000');
   const [verificationResult, setVerificationResult] = useState<AgeVerificationResponse | null>(null);
   const [step, setStep] = useState<'input' | 'verifying' | 'result'>('input');
   const [isClient, setIsClient] = useState(false);
@@ -42,7 +42,7 @@ export default function AgeVerificationModal({
     // Validar formato del teléfono
     const phoneRegex = /^\+\d{10,15}$/;
     if (!phoneRegex.test(phoneNumber)) {
-      toast.error('Formato de teléfono inválido. Usa formato internacional (+34639106848)');
+      toast.error('Formato de teléfono inválido. Usa formato internacional (+34696567000)');
       return;
     }
 
@@ -89,7 +89,7 @@ export default function AgeVerificationModal({
   const handleClose = () => {
     setStep('input');
     setVerificationResult(null);
-    setPhoneNumber('+34639106848');
+    setPhoneNumber('+34696567000');
     onClose();
   };
 
@@ -172,12 +172,12 @@ export default function AgeVerificationModal({
                       id="phone"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="+34639106848"
+                      placeholder="+34696567000"
                       className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    Formato internacional requerido (ej: +34639106848)
+                    Formato internacional requerido (ej: +34696567000)
                   </p>
                 </div>
 

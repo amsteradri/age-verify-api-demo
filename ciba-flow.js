@@ -221,7 +221,7 @@ async function main() {
         // Solicitar número de teléfono
         let phoneNumber;
         while (true) {
-            phoneNumber = await getUserInput('📱 Introduce el número de teléfono (formato: +34639106848): ');
+            phoneNumber = await getUserInput('📱 Introduce el número de teléfono (formato: +34696567000): ');
             
             if (!phoneNumber) {
                 console.log('❌ El número de teléfono es obligatorio.');
@@ -229,7 +229,7 @@ async function main() {
             }
             
             if (!isValidPhoneNumber(phoneNumber)) {
-                console.log('❌ Formato inválido. Usa formato internacional con + (ej: +34639106848)');
+                console.log('❌ Formato inválido. Usa formato internacional con + (ej: +34696567000)');
                 continue;
             }
             
