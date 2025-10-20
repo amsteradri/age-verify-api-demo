@@ -46,26 +46,52 @@ export default function Home() {
   return (
     <div className="min-h-screen gradient-bg py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
+        {/* Header Bancario */}
         <div className="text-center mb-12">
           <div className="float-animation mb-6">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-full mb-4">
-              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
               </svg>
             </div>
           </div>
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Know Your Customer
-          </h1>
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-4">
-            <span className="text-xl font-semibold text-white/90 mr-2">Open Gateway</span>
-            <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full">API</span>
+          <div className="mb-6">
+            <h1 className="text-5xl font-bold text-white mb-2">
+              SecureBank Digital
+            </h1>
+            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-4">
+              <span className="text-lg font-semibold text-white/90 mr-2">Powered by</span>
+              <span className="text-xl font-bold text-white mr-2">Open Gateway</span>
+              <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full">Telefónica</span>
+            </div>
           </div>
+          <h2 className="text-2xl font-semibold text-white mb-4">
+            Apertura de Cuenta Digital
+          </h2>
           <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Verifica la identidad de tus clientes de forma segura y confiable utilizando 
-            la infraestructura de red de Telefónica
+            Abre tu cuenta bancaria de forma 100% digital y segura. Utilizamos la tecnología KYC 
+            de Telefónica Open Gateway para verificar tu identidad de manera instantánea
           </p>
+          <div className="mt-6 flex justify-center space-x-8 text-sm text-white/70">
+            <div className="flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              Verificación Instantánea
+            </div>
+            <div className="flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a5 5 0 0110 0z" clipRule="evenodd" />
+              </svg>
+              100% Seguro
+            </div>
+            <div className="flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Sin Papeles
+            </div>
+          </div>
         </div>
 
         {/* Contenido Principal */}
@@ -81,10 +107,13 @@ export default function Home() {
             <div className="telefonica-card p-8 text-center">
               <div className="loading-spinner mx-auto mb-4"></div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Verificando identidad...
+                🔐 Verificando tu identidad...
               </h3>
-              <p className="text-gray-600">
-                Procesando los datos con la red de Telefónica
+              <p className="text-gray-600 mb-3">
+                Conectando con Open Gateway de Telefónica para validar tus datos
+              </p>
+              <p className="text-sm text-gray-500 mb-4">
+                Este proceso es instantáneo y cumple con todas las normativas bancarias
               </p>
               <div className="mt-4">
                 <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
@@ -130,11 +159,35 @@ export default function Home() {
 
         {/* Footer */}
         <div className="mt-16 text-center text-white/60">
-          <p className="text-sm">
-            Esta demo utiliza la API de KYC de Telefónica para verificar la identidad de los clientes.
+          <div className="mb-4">
+            <div className="inline-flex items-center space-x-6 text-xs">
+              <div className="flex items-center">
+                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a5 5 0 0110 0z" clipRule="evenodd" />
+                </svg>
+                Tecnología KYC
+              </div>
+              <div className="flex items-center">
+                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Regulación Bancaria
+              </div>
+              <div className="flex items-center">
+                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Open Gateway
+              </div>
+            </div>
+          </div>
+          <p className="text-sm mb-2">
+            SecureBank Digital utiliza la tecnología KYC de Telefónica Open Gateway 
+            para garantizar la máxima seguridad en la apertura de cuentas.
           </p>
-          <p className="text-xs mt-2">
-            Los datos se procesan de forma segura y no se almacenan.
+          <p className="text-xs">
+            Demo tecnológica - Los datos se procesan de forma segura y no se almacenan • 
+            Cumplimiento GDPR y normativas bancarias
           </p>
         </div>
       </div>
