@@ -64,13 +64,23 @@ export default function Home() {
               <span className="text-xl font-bold text-white mr-2">Open Gateway</span>
               <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full">Telefónica</span>
             </div>
+            {/* Demo Tag */}
+            <div className="mb-4">
+              <div className="inline-flex items-center bg-orange-500/20 border border-orange-400/30 backdrop-blur-sm rounded-full px-4 py-2">
+                <svg className="w-4 h-4 text-orange-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm font-medium text-orange-100">
+                  🎯 DEMO TÉCNICA - Entorno de desarrollo 
+                </span>
+              </div>
+            </div>
           </div>
           <h2 className="text-2xl font-semibold text-white mb-4">
             Apertura de Cuenta Digital
           </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Abre tu cuenta bancaria de forma 100% digital y segura. Utilizamos la tecnología KYC 
-            de Telefónica Open Gateway para verificar tu identidad de manera instantánea
+          <p className="text-lg text-white/80 max-w-3xl mx-auto leading-relaxed">
+            Abre tu cuenta bancaria de forma 100% digital y segura. Utilizamos la tecnología KYC de Telefónica Open Gateway para verificar tu identidad de manera instantánea
           </p>
           <div className="mt-6 flex justify-center space-x-8 text-sm text-white/70">
             <div className="flex items-center">
