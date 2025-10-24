@@ -1,0 +1,23 @@
+{
+  "name": "sim-swap-demo",
+  "version": "1.0.0",
+  "description": "Demo de SIM Swap Detection usando Telefónica Open Gateway",
+  "main": "sim-swap-flow.js",
+  "type": "module",
+  "scripts": {
+    "start": "node sim-swap-flow.js",
+    "dev": "node sim-swap-flow.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
+  "keywords": [
+    "telefonica",
+    "open-gateway",
+    "sim-swap",
+    "ciba",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT"
+}

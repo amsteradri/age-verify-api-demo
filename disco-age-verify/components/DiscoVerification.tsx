@@ -226,7 +226,7 @@ export default function AgeVerificationSystem() {
               <div className="max-h-40 overflow-y-auto bg-gray-50 rounded-lg p-4 mb-6">
                 {people.slice(0, 10).map((person, index) => (
                   <div key={index} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
-                    <span className="font-medium">{person.name}</span>
+                    <span className="font-medium text-black">{person.name}</span>
                     <span className="text-sm text-gray-600">{person.phoneNumber}</span>
                   </div>
                 ))}
@@ -320,7 +320,7 @@ export default function AgeVerificationSystem() {
                         <XCircle className="text-red-600" size={20} />
                       )}
                       <div>
-                        <div className="font-medium">{result.name}</div>
+                        <div className="font-medium text-black">{result.name}</div>
                         <div className="text-sm text-gray-600">{result.phoneNumber}</div>
                       </div>
                     </div>
