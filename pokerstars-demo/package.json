@@ -1,0 +1,34 @@
+{
+  "name": "kyc-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "install-and-run": "npm install && npm run dev"
+  },
+  "dependencies": {
+    "@types/node": "20.8.0",
+    "@types/papaparse": "^5.5.0",
+    "@types/react": "18.2.25",
+    "@types/react-dom": "18.2.10",
+    "autoprefixer": "10.4.16",
+    "dotenv": "^16.3.1",
+    "framer-motion": "^10.16.4",
+    "lucide-react": "^0.290.0",
+    "next": "14.0.0",
+    "papaparse": "^5.5.3",
+    "postcss": "8.4.31",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "tailwindcss": "3.3.5",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "eslint": "8.51.0",
+    "eslint-config-next": "14.0.0"
+  }
+}
