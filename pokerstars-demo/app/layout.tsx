@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import './pokerstars.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'KYC Demo - Know Your Customer',
-  description: 'Demo de verificación de identidad KYC usando la API de Telefónica',
+  title: 'PokerStars España - Registro Premium',
+  description: 'Únete a la sala de poker más grande del mundo. Verificación de identidad y edad instantánea con tecnología Open Gateway de Telefónica.',
 }
 
 export default function RootLayout({

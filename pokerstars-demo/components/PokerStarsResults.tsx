@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, AlertCircle, Users, Star, Shield, Award, TrendingUp } from 'lucide-react';
-import { PokerStarsVerificationResult, MatchResult } from '@/types';
+import { PokerStarsVerificationResult } from '@/types';
 
 interface PokerStarsResultsProps {
   result: PokerStarsVerificationResult;
@@ -11,267 +9,260 @@ interface PokerStarsResultsProps {
 }
 
 export default function PokerStarsResults({ result, onReset }: PokerStarsResultsProps) {
-  const getStatusIcon = (canPlay: boolean) => {
-    return canPlay ? (
-      <CheckCircle className="w-16 h-16 text-green-600 mx-auto" />
-    ) : (
-      <XCircle className="w-16 h-16 text-red-600 mx-auto" />
-    );
-  };
-
-  const getStatusColor = (canPlay: boolean) => {
-    return canPlay ? 'green' : 'red';
-  };
-
-  const getFieldIcon = (status: MatchResult) => {
-    switch (status) {
-      case 'true':
-        return <CheckCircle className="w-5 h-5 text-green-600" />;
-      case 'false':
-        return <XCircle className="w-5 h-5 text-red-600" />;
-      case 'not_available':
-        return <AlertCircle className="w-5 h-5 text-yellow-600" />;
-      default:
-        return <AlertCircle className="w-5 h-5 text-gray-600" />;
+  const { kycResult, ageResult, canPlay } = result;
+  
+  // Determinar el estado visual general
+  const getStatusColor = () => {
+    if (canPlay) {
+      return {
+        bg: 'from-green-900/50 via-green-800/50 to-emerald-900/50',
+        border: 'border-green-500/50',
+        accent: 'text-green-400',
+        icon: 'text-green-400'
+      };
+    } else {
+      return {
+        bg: 'from-red-900/50 via-red-800/50 to-red-900/50',
+        border: 'border-red-500/50',
+        accent: 'text-red-400',
+        icon: 'text-red-400'
+      };
     }
   };
 
-  const getFieldColor = (status: MatchResult) => {
-    switch (status) {
-      case 'true': return 'border-green-200 bg-green-50';
-      case 'false': return 'border-red-200 bg-red-50';
-      case 'not_available': return 'border-yellow-200 bg-yellow-50';
-      default: return 'border-gray-200 bg-gray-50';
-    }
-  };
+  const statusColors = getStatusColor();
 
-  const fieldLabels: Record<string, string> = {
-    idDocumentMatch: 'Documento de Identidad',
-    nameMatch: 'Nombre Completo',
-    givenNameMatch: 'Nombre',
-    familyNameMatch: 'Apellidos',
-    birthdateMatch: 'Fecha de Nacimiento',
-    addressMatch: 'Dirección',
-    emailMatch: 'Email',
-    genderMatch: 'Género',
-    postalCodeMatch: 'Código Postal',
-    countryMatch: 'País'
+  const formatMatch = (match: any) => {
+    if (typeof match === 'boolean') {
+      return match ? '✅ VERIFICADO' : '❌ NO VERIFICADO';
+    }
+    if (match === 'true') return '✅ VERIFICADO';
+    if (match === 'false') return '❌ NO VERIFICADO';
+    if (match === 'not_available') return '⚠️ NO DISPONIBLE';
+    return 'N/A';
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="space-y-8"
-    >
-      {/* Resultado Principal */}
-      <div className={`telefonica-card p-8 text-center border-l-4 ${
-        result.canPlay ? 'border-l-green-500' : 'border-l-red-500'
-      }`}>
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-        >
-          {getStatusIcon(result.canPlay)}
-        </motion.div>
+    <div className={`bg-gradient-to-br ${statusColors.bg} backdrop-blur-lg rounded-3xl shadow-2xl p-8 border ${statusColors.border}`}>
+      {/* Header de resultados */}
+      <div className="text-center mb-8">
+        <div className={`inline-flex items-center justify-center w-20 h-20 ${canPlay ? 'bg-gradient-to-br from-green-600 to-green-700' : 'bg-gradient-to-br from-red-600 to-red-700'} rounded-full mb-6 shadow-2xl border-4 ${canPlay ? 'border-green-400' : 'border-red-400'}`}>
+          {canPlay ? (
+            <svg className="w-10 h-10 text-green-100" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <svg className="w-10 h-10 text-red-100" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+          )}
+        </div>
         
-        <h2 className={`text-3xl font-bold mt-4 mb-2 text-${getStatusColor(result.canPlay)}-700`}>
-          {result.canPlay ? '🎉 ¡Registro Aprobado!' : '❌ Registro No Aprobado'}
+        <h2 className="text-4xl font-bold text-white mb-4" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+          {canPlay ? '🎉 ¡BIENVENIDO A POKERSTARS!' : '❌ REGISTRO NO AUTORIZADO'}
         </h2>
         
-        <p className="text-xl text-gray-700 mb-6">
+        <div className={`inline-flex items-center px-8 py-4 rounded-full text-xl font-bold shadow-lg mb-6 ${canPlay ? 'bg-gradient-to-r from-green-600 to-green-700 text-white border border-green-500' : 'bg-gradient-to-r from-red-600 to-red-700 text-white border border-red-500'}`}>
+          <svg className="w-6 h-6 mr-3 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+          </svg>
+          {canPlay ? 'CUENTA ACTIVADA' : 'VERIFICACIÓN FALLIDA'}
+          <svg className="w-6 h-6 ml-3 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+          </svg>
+        </div>
+        
+        <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
           {result.overallMessage}
         </p>
-
-        {/* Badges de Estado */}
-        <div className="flex justify-center gap-4 mb-6">
-          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-            result.kycVerified ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          }`}>
-            <Shield className="w-4 h-4 mr-2" />
-            KYC {result.kycVerified ? 'Verificado' : 'No Verificado'}
-          </div>
-          
-          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-            result.ageVerified ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'
-          }`}>
-            <Users className="w-4 h-4 mr-2" />
-            Edad {result.ageVerified ? 'Verificada (+18)' : 'No Verificada'}
-          </div>
-
-          <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-purple-100 text-purple-700">
-            <TrendingUp className="w-4 h-4 mr-2" />
-            Puntuación: {result.kycScore}%
-          </div>
-        </div>
-
-        {/* Recomendaciones */}
-        {result.recommendations && result.recommendations.length > 0 && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-            <h4 className="font-semibold text-yellow-800 mb-2">📋 Recomendaciones:</h4>
-            <ul className="text-sm text-yellow-700 space-y-1">
-              {result.recommendations.map((rec, index) => (
-                <li key={index}>• {rec}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {result.canPlay && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center justify-center mb-2">
-              <Star className="w-6 h-6 text-yellow-500 mr-2" />
-              <span className="font-semibold text-green-800">¡Bienvenido a PokerStars!</span>
-            </div>
-            <p className="text-sm text-green-700">
-              Tu cuenta ha sido verificada exitosamente. Ya puedes empezar a jugar poker online de forma legal y segura.
-            </p>
-          </div>
-        )}
       </div>
 
-      {/* Detalles de Verificación */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        {/* Resultados KYC */}
-        <div className="telefonica-card p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-            <Shield className="w-6 h-6 mr-2 text-blue-600" />
-            Verificación de Identidad (KYC)
-          </h3>
+      {/* Resultados detallados */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        {/* Verificación KYC */}
+        <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/50">
+          <div className="flex items-center mb-4">
+            <div className={`w-12 h-12 ${result.kycVerified ? 'bg-green-600' : 'bg-red-600'} rounded-full flex items-center justify-center mr-4`}>
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">Verificación KYC</h3>
+              <p className="text-gray-400">Validación de identidad</p>
+            </div>
+          </div>
           
           <div className="space-y-3">
-            {Object.entries(fieldLabels).map(([field, label]) => {
-              const value = result.kycResult[field as keyof typeof result.kycResult] as MatchResult;
-              if (!value) return null;
-              
-              return (
-                <div key={field} className={`flex items-center justify-between p-3 rounded-lg border ${getFieldColor(value)}`}>
-                  <span className="font-medium text-gray-800">{label}</span>
-                  <div className="flex items-center gap-2">
-                    {getFieldIcon(value)}
-                    <span className="text-sm font-medium">
-                      {value === 'true' ? 'Verificado' : 
-                       value === 'false' ? 'No coincide' : 'No disponible'}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Campos Categorizados */}
-          <div className="mt-6 space-y-3">
-            {result.verifiedFields.length > 0 && (
-              <div className="bg-green-50 p-3 rounded-lg">
-                <h5 className="font-semibold text-green-800 mb-1">✅ Campos Verificados:</h5>
-                <p className="text-sm text-green-700">{result.verifiedFields.join(', ')}</p>
-              </div>
-            )}
-            
-            {result.failedFields.length > 0 && (
-              <div className="bg-red-50 p-3 rounded-lg">
-                <h5 className="font-semibold text-red-800 mb-1">❌ Campos No Verificados:</h5>
-                <p className="text-sm text-red-700">{result.failedFields.join(', ')}</p>
-              </div>
-            )}
-            
-            {result.unavailableFields.length > 0 && (
-              <div className="bg-yellow-50 p-3 rounded-lg">
-                <h5 className="font-semibold text-yellow-800 mb-1">⚠️ Campos No Disponibles:</h5>
-                <p className="text-sm text-yellow-700">{result.unavailableFields.join(', ')}</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Resultados de Edad */}
-        <div className="telefonica-card p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-            <Users className="w-6 h-6 mr-2 text-purple-600" />
-            Verificación de Edad
-          </h3>
-          
-          <div className="space-y-4">
-            <div className={`p-4 rounded-lg border-2 ${
-              result.ageVerified ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'
-            }`}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold">Mayoría de Edad (18+)</span>
-                {result.ageVerified ? (
-                  <CheckCircle className="w-6 h-6 text-green-600" />
-                ) : (
-                  <XCircle className="w-6 h-6 text-red-600" />
-                )}
-              </div>
-              <p className={`text-sm ${result.ageVerified ? 'text-green-700' : 'text-red-700'}`}>
-                {result.ageVerified ? 
-                  'Edad verificada: Usuario mayor de 18 años' : 
-                  'No se pudo verificar que el usuario sea mayor de 18 años'
-                }
-              </p>
-            </div>
-
-            {result.ageResult.identityMatchScore && (
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold text-blue-800">Puntuación de Identidad</span>
-                  <span className="text-xl font-bold text-blue-600">
-                    {result.ageResult.identityMatchScore}%
+            {kycResult ? (
+              <>
+                <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                  <span className="text-gray-300 font-medium">Nombre:</span>
+                  <span className={`font-bold ${kycResult.givenNameMatch === 'true' ? 'text-green-400' : kycResult.givenNameMatch === 'false' ? 'text-red-400' : 'text-yellow-400'}`}>
+                    {formatMatch(kycResult.givenNameMatch)}
                   </span>
                 </div>
-                <div className="w-full bg-blue-200 rounded-full h-2">
-                  <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${result.ageResult.identityMatchScore}%` }}
-                  ></div>
+                <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                  <span className="text-gray-300 font-medium">Apellidos:</span>
+                  <span className={`font-bold ${kycResult.familyNameMatch === 'true' ? 'text-green-400' : kycResult.familyNameMatch === 'false' ? 'text-red-400' : 'text-yellow-400'}`}>
+                    {formatMatch(kycResult.familyNameMatch)}
+                  </span>
                 </div>
+                <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                  <span className="text-gray-300 font-medium">Código postal:</span>
+                  <span className={`font-bold ${kycResult.postalCodeMatch === 'true' ? 'text-green-400' : kycResult.postalCodeMatch === 'false' ? 'text-red-400' : 'text-yellow-400'}`}>
+                    {formatMatch(kycResult.postalCodeMatch)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                  <span className="text-gray-300 font-medium">Fecha de nacimiento:</span>
+                  <span className={`font-bold ${kycResult.birthdateMatch === 'true' ? 'text-green-400' : kycResult.birthdateMatch === 'false' ? 'text-red-400' : 'text-yellow-400'}`}>
+                    {formatMatch(kycResult.birthdateMatch)}
+                  </span>
+                </div>
+                <div className="bg-gray-700/20 rounded-lg p-3 mt-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300 font-medium">Puntuación KYC:</span>
+                    <span className="text-white font-bold text-lg">{result.kycScore}%</span>
+                  </div>
+                  <div className="w-full bg-gray-600 rounded-full h-2 mt-2">
+                    <div 
+                      className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${result.kycScore}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center p-4">
+                <span className="text-red-400 font-semibold">❌ Error en verificación KYC</span>
               </div>
             )}
+          </div>
+        </div>
 
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h5 className="font-semibold text-gray-800 mb-2">📊 Detalles Técnicos</h5>
-              <div className="text-sm text-gray-600 space-y-1">
-                <p><strong>Estado de verificación:</strong> {result.ageResult.verifiedStatus ? 'Verificado' : 'No verificado'}</p>
-                <p><strong>Control de edad:</strong> {result.ageResult.ageCheck}</p>
-                {result.ageResult.contentLock && (
-                  <p><strong>Bloqueo de contenido:</strong> {result.ageResult.contentLock}</p>
-                )}
-                {result.ageResult.parentalControl && (
-                  <p><strong>Control parental:</strong> {result.ageResult.parentalControl}</p>
-                )}
-              </div>
+        {/* Verificación de Edad */}
+        <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/50">
+          <div className="flex items-center mb-4">
+            <div className={`w-12 h-12 ${result.ageVerified ? 'bg-green-600' : 'bg-red-600'} rounded-full flex items-center justify-center mr-4`}>
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">Control de Edad</h3>
+              <p className="text-gray-400">Verificación +18 años</p>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            {ageResult ? (
+              <>
+                <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                  <span className="text-gray-300 font-medium">Mayor de 18 años:</span>
+                  <span className={`font-bold ${ageResult.ageCheck === 'true' ? 'text-green-400' : ageResult.ageCheck === 'false' ? 'text-red-400' : 'text-yellow-400'}`}>
+                    {ageResult.ageCheck === 'true' ? '✅ CONFIRMADO' : ageResult.ageCheck === 'false' ? '❌ NO VERIFICADO' : '⚠️ NO DISPONIBLE'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                  <span className="text-gray-300 font-medium">Estado de verificación:</span>
+                  <span className={`font-bold ${ageResult.verifiedStatus ? 'text-green-400' : 'text-red-400'}`}>
+                    {ageResult.verifiedStatus ? '✅ VERIFICADO' : '❌ NO VERIFICADO'}
+                  </span>
+                </div>
+                {ageResult.identityMatchScore && (
+                  <div className="bg-gray-700/20 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300 font-medium">Coincidencia identidad:</span>
+                      <span className="text-white font-bold text-lg">{ageResult.identityMatchScore}%</span>
+                    </div>
+                    <div className="w-full bg-gray-600 rounded-full h-2 mt-2">
+                      <div 
+                        className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${ageResult.identityMatchScore}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
+                {ageResult.contentLock && (
+                  <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                    <span className="text-gray-300 font-medium">Control de contenido:</span>
+                    <span className={`font-bold ${ageResult.contentLock === 'true' ? 'text-green-400' : 'text-red-400'}`}>
+                      {formatMatch(ageResult.contentLock)}
+                    </span>
+                  </div>
+                )}
+                {ageResult.parentalControl && (
+                  <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
+                    <span className="text-gray-300 font-medium">Control parental:</span>
+                    <span className={`font-bold ${ageResult.parentalControl === 'true' ? 'text-green-400' : 'text-red-400'}`}>
+                      {formatMatch(ageResult.parentalControl)}
+                    </span>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-center p-4">
+                <span className="text-red-400 font-semibold">❌ Error en verificación de edad</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Botones de Acción */}
-      <div className="flex justify-center gap-4">
-        <button
-          onClick={onReset}
-          className="telefonica-button-secondary px-8 py-3"
-        >
-          Nueva Verificación
-        </button>
-        
-        {result.canPlay && (
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors flex items-center">
-            <Star className="w-5 h-5 mr-2" />
-            Empezar a Jugar
-          </button>
+      {/* Mensajes de estado y acciones */}
+      <div className="text-center">
+        {canPlay ? (
+          <div className="bg-gradient-to-r from-green-900/50 to-emerald-900/50 rounded-2xl p-6 border border-green-500/30 mb-6">
+            <div className="text-green-100 text-lg space-y-2">
+              <p className="font-bold text-xl">🎉 ¡Registro completado con éxito!</p>
+              <p>Su cuenta de PokerStars España está lista. Puede comenzar a jugar inmediatamente.</p>
+              <div className="flex justify-center space-x-4 mt-4">
+                <div className="flex items-center text-green-300">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-semibold">Acceso a todas las mesas</span>
+                </div>
+                <div className="flex items-center text-green-300">
+                  <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-semibold">Torneos disponibles</span>
+                </div>
+                <div className="flex items-center text-green-300">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-semibold">Bonos de bienvenida</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-gradient-to-r from-red-900/50 to-red-800/50 rounded-2xl p-6 border border-red-500/30 mb-6">
+            <div className="text-red-100 text-lg space-y-2">
+              <p className="font-bold text-xl">❌ Verificación incompleta</p>
+              <p>No se pudo completar la verificación de identidad o edad.</p>
+              <p className="text-sm text-red-200">
+                Asegúrese de que los datos introducidos coinciden exactamente con los de su operador móvil.
+              </p>
+            </div>
+          </div>
         )}
-      </div>
 
-      {/* Información de Sandbox */}
-      {result.kycResult._sandbox && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-          <h4 className="font-semibold text-blue-800 mb-2">🔧 Información del Sandbox</h4>
-          <p className="text-sm text-blue-700">{result.kycResult._sandbox}</p>
+        <div className="flex justify-center space-x-4">
+          <button
+            onClick={onReset}
+            className="bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-3 rounded-full hover:from-gray-800 hover:to-gray-900 transition-all duration-300 font-bold text-lg shadow-lg border border-gray-600"
+          >
+            🔄 NUEVO REGISTRO
+          </button>
+          
+          {canPlay && (
+            <button
+              className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-full hover:from-red-700 hover:to-red-800 transition-all duration-300 font-bold text-lg shadow-lg border border-red-500"
+              onClick={() => window.open('https://pokerstars.es', '_blank')}
+            >
+              🎰 IR A POKERSTARS
+            </button>
+          )}
         </div>
-      )}
-    </motion.div>
+      </div>
+    </div>
   );
 }
