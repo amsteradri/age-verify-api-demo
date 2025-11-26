@@ -30,3 +30,5 @@ coverage/
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+channel-partners/
