@@ -366,7 +366,7 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 px-8 bg-gradient-to-r from-red-600 via-red-700 to-red-600 text-white font-bold text-lg rounded-full hover:from-red-700 hover:via-red-800 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-2xl border-2 border-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full py-4 px-8 bg-gradient-to-r from-red-600 via-red-700 to-red-600 text-white font-bold text-lg rounded-full hover:from-red-700 hover:via-red-800 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-2xl border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">
@@ -375,13 +375,9 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               </span>
             ) : (
               <span className="flex items-center justify-center">
-                <svg className="w-6 h-6 mr-3 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
-                </svg>
+                <img src="/images/pokerstars-logo.png" alt="PokerStars" className="w-6 h-6 mr-3" />
                 COMENZAR A JUGAR EN POKERSTARS
-                <svg className="w-6 h-6 ml-3 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
-                </svg>
+                <img src="/images/pokerstars-logo.png" alt="PokerStars" className="w-6 h-6 ml-3" />
               </span>
             )}
           </button>
