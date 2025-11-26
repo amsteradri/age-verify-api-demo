@@ -44,13 +44,13 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
     }));
   };
 
-  // Función para generar datos aleatorios
+  // Generate random test data
   const generateRandomData = () => {
-    const names = ['Ana', 'Carlos', 'María', 'José', 'Carmen', 'Antonio', 'Isabel', 'Manuel', 'Pilar', 'Francisco'];
-    const surnames = ['García López', 'Martínez Silva', 'González Ruiz', 'Rodríguez Moreno', 'López Jiménez', 'Hernández Díaz', 'Pérez Castro', 'Sánchez Romero', 'Ruiz Herrera', 'Vargas Ortega'];
-    const addresses = ['Calle Mayor 123', 'Avenida de la Paz 45', 'Plaza España 67', 'Calle Gran Vía 89', 'Paseo de la Castellana 234', 'Calle Alcalá 156', 'Avenida América 78'];
-    const postalCodes = ['28013', '08001', '41001', '46001', '50001', '15001', '29001'];
-    const countries = ['ES', 'FR', 'IT', 'DE', 'PT'];
+    const names = ['Ana', 'Carlos', 'María', 'José', 'Carmen', 'Antonio'];
+    const surnames = ['García López', 'Martínez Silva', 'González Ruiz', 'Rodríguez Moreno'];
+    const addresses = ['Calle Mayor 123', 'Avenida de la Paz 45', 'Plaza España 67'];
+    const postalCodes = ['28013', '08001', '41001', '46001'];
+    const countries = ['ES', 'FR', 'IT', 'DE'];
     const genders: ('MALE' | 'FEMALE' | 'OTHER')[] = ['MALE', 'FEMALE', 'OTHER'];
 
     const randomName = names[Math.floor(Math.random() * names.length)];
@@ -60,16 +60,14 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
     const randomCountry = countries[Math.floor(Math.random() * countries.length)];
     const randomGender = genders[Math.floor(Math.random() * genders.length)];
 
-    // Generar fecha de nacimiento aleatoria (entre 18 y 80 años)
+    // Generate random birth date (18-80 years old)
     const today = new Date();
-    const minAge = 18;
-    const maxAge = 80;
-    const birthYear = today.getFullYear() - Math.floor(Math.random() * (maxAge - minAge + 1)) - minAge;
+    const birthYear = today.getFullYear() - Math.floor(Math.random() * 62) - 18;
     const birthMonth = Math.floor(Math.random() * 12) + 1;
     const birthDay = Math.floor(Math.random() * 28) + 1;
     const randomBirthdate = `${birthYear}-${birthMonth.toString().padStart(2, '0')}-${birthDay.toString().padStart(2, '0')}`;
 
-    // Generar DNI aleatorio
+    // Generate random DNI
     const randomNumber = Math.floor(Math.random() * 99999999);
     const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
     const randomDNI = `${randomNumber.toString().padStart(8, '0')}${letters[randomNumber % 23]}`;
@@ -88,7 +86,7 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
     });
   };
 
-  // Función para limpiar todos los campos excepto el teléfono
+  // Clear all fields except phone
   const clearAllFields = () => {
     setFormData({
       phoneNumber: '+34696567000',
@@ -106,7 +104,7 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
 
   return (
     <div className="space-y-6">
-      {/* Botones de utilidad */}
+      {/* Utility buttons */}
       <div className="flex flex-wrap gap-3 justify-center">
         <button
           type="button"
@@ -116,7 +114,7 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          🎲 GENERAR DATOS
+          🎲 GENERATE DATA
         </button>
         
         <button
@@ -127,15 +125,15 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
-          🗑️ LIMPIAR
+          🗑️ CLEAR
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Teléfono - Obligatorio */}
+        {/* Phone Number - Required */}
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-300 mb-2">
-            📱 TELÉFONO MÓVIL *
+            📱 MOBILE PHONE *
           </label>
           <input
             type="tel"
@@ -143,29 +141,29 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
             value={formData.phoneNumber}
             onChange={handleChange}
             required
-            placeholder="Ej: +34612345678"
+            placeholder="Ex: +34612345678"
             className="pokerstars-input w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
           />
           <p className="text-xs text-gray-400 flex items-center">
             <svg className="w-3 h-3 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5v3a.75.75 0 001.5 0v-3A.75.75 0 009 9z" clipRule="evenodd" />
             </svg>
-            Verificación a través de tu operador móvil
+            Verification through your mobile carrier
           </p>
         </div>
 
-        {/* Grid de 2 columnas para desktop */}
+        {/* Grid for desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Documento de Identidad */}
+          {/* ID Document */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              🆔 DOCUMENTO IDENTIDAD
+              🆔 ID DOCUMENT
               <button
                 type="button"
                 onClick={() => clearField('idDocument')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -173,21 +171,21 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               name="idDocument"
               value={formData.idDocument}
               onChange={handleChange}
-              placeholder="DNI, NIE o Pasaporte"
+              placeholder="DNI, NIE or Passport"
               className="pokerstars-input w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
             />
           </div>
 
-          {/* Género */}
+          {/* Gender */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              👤 GÉNERO
+              👤 GENDER
               <button
                 type="button"
                 onClick={() => clearField('gender')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <select
@@ -196,23 +194,23 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               onChange={handleChange}
               className="pokerstars-input w-full px-4 py-3 text-white bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
             >
-              <option value="" className="bg-gray-800">-- Seleccionar --</option>
-              <option value="MALE" className="bg-gray-800">Masculino</option>
-              <option value="FEMALE" className="bg-gray-800">Femenino</option>
-              <option value="OTHER" className="bg-gray-800">Otro</option>
+              <option value="" className="bg-gray-800">-- Select --</option>
+              <option value="MALE" className="bg-gray-800">Male</option>
+              <option value="FEMALE" className="bg-gray-800">Female</option>
+              <option value="OTHER" className="bg-gray-800">Other</option>
             </select>
           </div>
 
-          {/* Nombre */}
+          {/* First Name */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              👨 NOMBRE
+              👨 FIRST NAME
               <button
                 type="button"
                 onClick={() => clearField('givenName')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -220,21 +218,21 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               name="givenName"
               value={formData.givenName}
               onChange={handleChange}
-              placeholder="Tu nombre completo"
+              placeholder="Your first name"
               className="pokerstars-input w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
             />
           </div>
 
-          {/* Apellido */}
+          {/* Last Name */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              👥 APELLIDOS
+              👥 LAST NAME
               <button
                 type="button"
                 onClick={() => clearField('familyName')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -242,21 +240,21 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               name="familyName"
               value={formData.familyName}
               onChange={handleChange}
-              placeholder="Apellidos completos"
+              placeholder="Your last name"
               className="pokerstars-input w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
             />
           </div>
 
-          {/* Fecha de Nacimiento */}
+          {/* Birth Date */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              📅 FECHA NACIMIENTO
+              📅 BIRTH DATE
               <button
                 type="button"
                 onClick={() => clearField('birthdate')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -278,7 +276,7 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
                 onClick={() => clearField('email')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -286,22 +284,22 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="tu@email.com"
+              placeholder="your@email.com"
               className="pokerstars-input w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
             />
           </div>
         </div>
 
-        {/* Dirección */}
+        {/* Address */}
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-300 mb-2">
-            🏠 DIRECCIÓN
+            🏠 ADDRESS
             <button
               type="button"
               onClick={() => clearField('address')}
               className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
             >
-              (limpiar)
+              (clear)
             </button>
           </label>
           <input
@@ -309,22 +307,22 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
             name="address"
             value={formData.address}
             onChange={handleChange}
-            placeholder="Dirección completa"
+            placeholder="Complete address"
             className="pokerstars-input w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800/50 border border-gray-600 rounded-xl backdrop-filter backdrop-blur-lg transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Código Postal */}
+          {/* Postal Code */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              📮 CÓDIGO POSTAL
+              📮 POSTAL CODE
               <button
                 type="button"
                 onClick={() => clearField('postalCode')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -337,16 +335,16 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
             />
           </div>
 
-          {/* País */}
+          {/* Country */}
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">
-              🌍 PAÍS (ISO)
+              🌍 COUNTRY (ISO)
               <button
                 type="button"
                 onClick={() => clearField('country')}
                 className="ml-2 text-xs font-medium text-red-400 hover:text-red-300"
               >
-                (limpiar)
+                (clear)
               </button>
             </label>
             <input
@@ -384,7 +382,7 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
         </div>
       </form>
 
-      {/* Información de seguridad */}
+      {/* Security Information */}
       <div className="mt-8 p-6 bg-gradient-to-r from-gray-900/50 to-gray-800/50 rounded-2xl border border-gray-700/30 backdrop-blur-lg">
         <div className="flex items-start">
           <div className="flex-shrink-0">
@@ -397,29 +395,29 @@ const PokerStarsForm: React.FC<PokerStarsFormProps> = ({ onSubmit, isLoading }) 
               <svg className="w-5 h-5 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a5 5 0 0110 0z" clipRule="evenodd" />
               </svg>
-              🛡️ REGISTRO 100% SEGURO
+              🛡️ 100% SECURE REGISTRATION
             </h4>
             <p className="text-gray-300 leading-relaxed text-sm">
-              Tu información está protegida con la tecnología más avanzada de ciberseguridad. 
-              La verificación se realiza instantáneamente a través de la red segura de <strong className="text-blue-400">Telefónica Open Gateway</strong>, 
-              cumpliendo con todas las normativas de protección de datos y regulaciones de juego online de España.
+              Your information is protected with advanced cybersecurity technology. 
+              Verification is performed instantly through <strong className="text-blue-400">Telefónica Open Gateway</strong> secure network, 
+              complying with all data protection regulations and online gaming regulations.
             </p>
             <div className="mt-4 flex flex-wrap gap-4 text-xs">
               <div className="flex items-center text-green-300">
                 <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                <span>Verificación instantánea</span>
+                <span>Instant verification</span>
               </div>
               <div className="flex items-center text-blue-300">
                 <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
-                <span>Cumplimiento DGOJ</span>
+                <span>Regulatory compliance</span>
               </div>
               <div className="flex items-center text-yellow-300">
                 <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></div>
-                <span>Protección GDPR</span>
+                <span>GDPR protection</span>
               </div>
               <div className="flex items-center text-red-300">
                 <div className="w-2 h-2 bg-red-400 rounded-full mr-2"></div>
-                <span>Solo +18 años</span>
+                <span>18+ only</span>
               </div>
             </div>
           </div>
