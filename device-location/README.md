@@ -43,7 +43,7 @@ La demo está preconfigurada con:
 
 - **📍 Ubicación**: Madrid (40.4168, -3.7038)
 - **🎯 Precisión**: 10 km de radio
-- **📱 Número recomendado**: +34696567077 (sandbox)
+- **📱 Número recomendado**: +34696567000 (sandbox)
 
 ### Modificar parámetros
 
@@ -51,7 +51,7 @@ Para cambiar la ubicación o precisión, edita las constantes en `demo.js`:
 
 ```javascript
 const DEMO_CONFIG = {
-    phoneNumber: '+34696567077',    // Número por defecto
+    phoneNumber: '+34696567000',    // Número por defecto
     latitude: 40.4168,              // Cambiar latitud
     longitude: -3.7038,             // Cambiar longitud  
     accuracy: 10                    // Cambiar radio (2-200 km)
