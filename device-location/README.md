@@ -1,108 +1,85 @@
-# Device Location Verification Demo
+# Telefónica Open Gateway - Device Location Verification Demo
 
-Demo de verificación de ubicación de dispositivos utilizando Telefónica Open Gateway API.
+Demo profesional que muestra cómo verificar la ubicación de un dispositivo móvil utilizando la API de Device Location Verification de Telefónica Open Gateway.
 
-## ¿Qué es Device Location Verification?
+## ¿Qué hace esta demo?
 
-La verificación de ubicación de dispositivos permite validar si un dispositivo móvil se encuentra en una ubicación específica dentro de un radio de precisión determinado. Esto es útil para:
+Esta demo implementa el flujo completo **CIBA (Client Initiated Backchannel Authentication)** para verificar si un dispositivo móvil se encuentra en una ubicación específica:
 
-- Prevenir fraudes basados en geolocalización
-- Verificar presencia física en transacciones
-- Control de acceso basado en ubicación
-- Cumplimiento normativo de restricciones geográficas
+1. **🔐 Autorización**: Inicia el proceso de autenticación con el operador
+2. **🎫 Token**: Obtiene un token de acceso OAuth2 
+3. **📍 Verificación**: Consulta si el dispositivo está en las coordenadas especificadas
 
-## Funcionalidad
+## Casos de uso empresariales
 
-Esta demo implementa el flujo completo CIBA para verificar la ubicación de un dispositivo:
+- **Banca digital**: Verificar ubicación antes de transacciones de alto valor
+- **E-commerce**: Prevenir fraudes basados en geolocalización 
+- **Seguros**: Validar ubicación en reclamaciones
+- **Logística**: Confirmar presencia del destinatario
+- **Acceso a sistemas**: Control de acceso basado en ubicación
 
-1. **bc-authorize**: Inicia autenticación CIBA con el número de teléfono
-2. **token**: Obtiene access token OAuth2
-3. **location verify**: Verifica si el dispositivo está en la ubicación esperada
+## Configuración rápida
 
-## Configuración
-
-1. Asegúrate de que el archivo `.env` contenga las credenciales:
-```env
-CLIENT_ID=tu_client_id
-CLIENT_SECRET=tu_client_secret
-NEXT_PUBLIC_API_BASE_URL=https://sandbox.opengateway.telefonica.com/apigateway
-```
-
-2. Instala las dependencias:
+### 1. Instalar dependencias
 ```bash
 npm install
 ```
 
-## Ejecución
+### 2. Configurar credenciales
+Edita el archivo `.env` con tus credenciales de Open Gateway:
+```env
+CLIENT_ID=tu_client_id
+CLIENT_SECRET=tu_client_secret
+```
 
+### 3. Ejecutar demo
 ```bash
 npm start
 ```
 
-El script te pedirá:
+## Parámetros de la demo
 
-1. **Número de teléfono**: En formato internacional (+34123456789)
-2. **Latitud**: Coordenada de latitud (-90 a 90)
-3. **Longitud**: Coordenada de longitud (-180 a 180)
-4. **Precisión**: Radio de precisión en kilómetros (2-200 km, por defecto 10)
-5. **Puerto** (opcional): Puerto del dispositivo (0-65535)
+La demo está preconfigurada con:
 
-## Números de Prueba
+- **📍 Ubicación**: Madrid (40.4168, -3.7038)
+- **🎯 Precisión**: 10 km de radio
+- **📱 Número recomendado**: +34696567077 (sandbox)
 
-Para el entorno sandbox, puedes usar:
+### Modificar parámetros
 
-- `+34696567077` (número de prueba configurado)
+Para cambiar la ubicación o precisión, edita las constantes en `demo.js`:
 
-## Coordenadas de Ejemplo
-
-- **Madrid**: 40.4168, -3.7038
-- **Barcelona**: 41.3851, 2.1734
-- **Valencia**: 39.4699, -0.3763
+```javascript
+const DEMO_CONFIG = {
+    phoneNumber: '+34696567077',    // Número por defecto
+    latitude: 40.4168,              // Cambiar latitud
+    longitude: -3.7038,             // Cambiar longitud  
+    accuracy: 10                    // Cambiar radio (2-200 km)
+};
+```
 
 ## Respuesta de la API
 
-La API devuelve:
+La API devuelve un resultado booleano:
 
 ```json
 {
-  "verificationResult": true/false
+  "verificationResult": true
 }
 ```
 
-Donde:
-- `verificationResult`: `true` si el dispositivo está dentro del radio de precisión especificado
+- `true`: El dispositivo está dentro del área especificada
+- `false`: El dispositivo está fuera del área especificada
 
-## Parámetros de la Petición
+## Arquitectura
 
-```json
-{
-  "ueId": {
-    "externalId": "+34123456789",
-    "uePort": 80
-  },
-  "latitude": 40.4168,
-  "longitude": -3.7038,
-  "accuracy": 10
-}
 ```
-
-- **ueId.externalId**: Número de teléfono del dispositivo
-- **ueId.uePort** (opcional): Puerto específico del dispositivo
-- **latitude**: Latitud de la ubicación a verificar
-- **longitude**: Longitud de la ubicación a verificar
-- **accuracy**: Radio de precisión en kilómetros (2-200)
-
-## Casos de Uso
-
-- **Banca digital**: Verificar ubicación en transacciones sensibles
-- **E-commerce**: Prevenir fraude en compras desde ubicaciones sospechosas
-- **Telecomunicaciones**: Validar roaming y servicios basados en ubicación
-- **Servicios de entrega**: Confirmar presencia del destinatario
-- **Control de acceso**: Verificar presencia física para acceso a sistemas
+📱 Dispositivo → 🔐 CIBA Auth → 🎫 OAuth2 Token → 📍 Location API → ✅ Resultado
+```
 
 ## Tecnología
 
-- **Open Gateway**: Plataforma de APIs de Telefónica
-- **CIBA Flow**: Client Initiated Backchannel Authentication
+- **Node.js**: Runtime de ejecución
+- **CIBA Flow**: Autenticación iniciada por el cliente
 - **OAuth2**: Protocolo de autorización estándar
-- **Node.js**: Runtime para el script de demostración
+- **Open Gateway**: Plataforma unificada de APIs telco

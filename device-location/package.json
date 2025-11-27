@@ -1,12 +1,12 @@
 {
   "name": "device-location-demo",
   "version": "1.0.0",
-  "description": "Demo de Device Location Verification usando Telefónica Open Gateway",
-  "main": "device-location-flow.js",
+  "description": "Demo profesional de Device Location Verification - Telefónica Open Gateway",
+  "main": "demo.js",
   "type": "module",
   "scripts": {
-    "start": "node device-location-flow.js",
-    "dev": "node device-location-flow.js"
+    "start": "node demo.js",
+    "demo": "node demo.js"
   },
   "dependencies": {
     "dotenv": "^16.0.0"
@@ -17,7 +17,7 @@
     "device-location",
     "location-verification",
     "ciba",
-    "security"
+    "demo"
   ],
   "author": "",
   "license": "MIT"
