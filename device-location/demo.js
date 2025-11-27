@@ -97,7 +97,6 @@ async function verifyDeviceLocation(accessToken, phoneNumber, latitude, longitud
     
     const requestBody = {
         ueId: {
-            externalId: "demo@opengateway.com",
             msisdn: phoneNumber
         },
         latitude: latitude,

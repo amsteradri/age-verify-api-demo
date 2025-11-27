@@ -1,15 +1,19 @@
 {
   "name": "device-location-demo",
   "version": "1.0.0",
-  "description": "Demo profesional de Device Location Verification - Telefónica Open Gateway",
-  "main": "demo.js",
+  "description": "Demo visual de Device Location Verification - Telefónica Open Gateway",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node demo.js",
-    "demo": "node demo.js"
+    "start": "node server.js",
+    "web": "node server.js",
+    "demo": "node demo.js",
+    "dev": "node server.js"
   },
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.21.2"
   },
   "keywords": [
     "telefonica",
@@ -17,8 +21,10 @@
     "device-location",
     "location-verification",
     "ciba",
-    "demo"
+    "demo",
+    "visual",
+    "web"
   ],
-  "author": "",
+  "author": "Telefónica",
   "license": "MIT"
 }

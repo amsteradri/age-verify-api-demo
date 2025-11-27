@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telefónica Open Gateway - Device Location Demo</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --telefonica-blue: #019DE0;
+            --telefonica-dark: #004481;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--telefonica-blue), var(--telefonica-dark));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .demo-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .map-container {
+            height: 400px;
+            position: relative;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .map-container {
+            height: 500px; /* Altura fija para el contenedor del mapa */
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .form-section {
+            padding: 2rem;
+        }
+
+        .result-card {
+            margin-top: 1.5rem;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .result-card.success {
+            border-left: 5px solid var(--success-color);
+        }
+
+        .result-card.error {
+            border-left: 5px solid var(--error-color);
+        }
+
+        .btn-primary {
+            background: var(--telefonica-blue);
+            border-color: var(--telefonica-blue);
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            background: var(--telefonica-dark);
+            border-color: var(--telefonica-dark);
+        }
+
+        .config-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .spinner-border {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .location-marker {
+            color: var(--telefonica-blue);
+            font-size: 1.1em;
+        }
+
+        .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-select:focus {
+            border-color: var(--telefonica-blue);
+            box-shadow: 0 0 0 0.2rem rgba(1, 157, 224, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">
+                        <i class="fas fa-map-marker-alt me-3"></i>
+                        Device Location Verification
+                    </h1>
+                    <p class="mb-0 opacity-75">Telefónica Open Gateway API Demo</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <img src="https://www.telefonica.com/resources/img/logo-telefonica.svg" 
+                         alt="Telefónica" style="height: 40px; filter: brightness(0) invert(1);">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="demo-container">
+                    
+                    <!-- Map Section -->
+                    <div class="map-container">
+                        <div id="map"></div>
+                    </div>
+                    
+                    <!-- Form Section -->
+                    <div class="form-section">
+                        
+                        <!-- Location Selector -->
+                        <div class="config-info">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <h6 class="mb-2">
+                                        <i class="fas fa-map-marked-alt location-marker me-2"></i>
+                                        Selecciona la ubicación a verificar
+                                    </h6>
+                                    <select class="form-select form-select-lg" id="locationSelector">
+                                        <option value="madrid">Madrid - Centro</option>
+                                        <option value="barcelona">Barcelona - Puerto</option>
+                                        <option value="valencia">Valencia - Ciudad de las Artes</option>
+                                        <option value="sevilla">Sevilla - Catedral</option>
+                                        <option value="custom">Ubicación personalizada</option>
+                                    </select>
+                                </div>
+
+                                <!-- Inputs para ubicación personalizada (inicialmente ocultos) -->
+                                <div id="customLocationInputs" class="col-md-12 mb-3 d-none">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Ubicación personalizada</strong> - Introduce las coordenadas deseadas
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
+                                            <label for="customLat" class="form-label">Latitud</label>
+                                            <input type="number" step="0.000001" min="-90" max="90" class="form-control" 
+                                                   id="customLat" placeholder="40.4168">
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <label for="customLng" class="form-label">Longitud</label>
+                                            <input type="number" step="0.000001" min="-180" max="180" class="form-control" 
+                                                   id="customLng" placeholder="-3.7038">
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <label for="customAccuracy" class="form-label">Precisión (km)</label>
+                                            <input type="number" min="2" max="200" class="form-control" 
+                                                   id="customAccuracy" placeholder="10" value="10">
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" id="applyCustomLocation">
+                                                <i class="fas fa-check me-1"></i> Aplicar ubicación personalizada
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-1">
+                                        <i class="fas fa-map-pin location-marker me-2"></i>
+                                        Coordenadas
+                                    </h6>
+                                    <small class="text-muted">
+                                        <span id="location-coords">40.4168, -3.7038</span>
+                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-1">
+                                        <i class="fas fa-bullseye location-marker me-2"></i>
+                                        Radio de precisión
+                                    </h6>
+                                    <small class="text-muted">
+                                        <span id="accuracy-value">10</span> kilómetros
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phone Form -->
+                        <form id="locationForm">
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">
+                                    <i class="fas fa-mobile-alt me-2"></i>
+                                    Número de teléfono
+                                </label>
+                                <div class="input-group">
+                                    <input 
+                                        type="tel" 
+                                        class="form-control form-control-lg" 
+                                        id="phoneNumber" 
+                                        placeholder="+34696567000"
+                                        value="+34696567000"
+                                        required
+                                        pattern="^\+[1-9]\d{8,14}$"
+                                    >
+                                    <button 
+                                        class="btn btn-primary" 
+                                        type="submit" 
+                                        id="verifyBtn"
+                                    >
+                                        <i class="fas fa-search me-2"></i>
+                                        Verificar ubicación
+                                    </button>
+                                </div>
+                                <div class="form-text">
+                                    Formato internacional requerido (ej: +34696567000)
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Loading State -->
+                        <div id="loadingState" class="text-center d-none">
+                            <div class="spinner-border text-primary me-2" role="status">
+                                <span class="visually-hidden">Verificando...</span>
+                            </div>
+                            <span>Verificando ubicación del dispositivo...</span>
+                        </div>
+
+                        <!-- Result Card -->
+                        <div id="resultCard" class="card result-card d-none">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div id="resultIcon" class="text-center">
+                                            <!-- Icon will be inserted here -->
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h5 id="resultTitle" class="card-title mb-1">
+                                            <!-- Result title will be inserted here -->
+                                        </h5>
+                                        <p id="resultDescription" class="card-text text-muted mb-2">
+                                            <!-- Description will be inserted here -->
+                                        </p>
+                                        
+                                        <!-- Technical Details -->
+                                        <div class="mt-3">
+                                            <h6 class="text-muted mb-2">Respuesta de la API:</h6>
+                                            <pre id="apiResponse" class="bg-light p-2 rounded"></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-4 pb-4">
+            <small class="text-muted">
+                Powered by Telefónica Open Gateway APIs | 
+                <a href="https://developers.opengateway.telefonica.com" target="_blank" class="text-decoration-none">
+                    Documentation
+                </a>
+            </small>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Main Application -->
+    <script src="app.js"></script>
+</body>
+</html>
